@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="result"
+            type="com.mv.livebodyexample.DetectionResult" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/scan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginBottom="136dp"
+            android:visibility="@{result.hasFace ? View.GONE : View.VISIBLE}"
+            android:background="@drawable/scanning" />
+
+        <com.mv.livebodyexample.CoverView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:horizontalPadding="21dp"
+            app:verticalPadding="136dp"
+            app:backgroundColor="@color/cover_background"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/frame"
+            android:keepScreenOn="true"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginBottom="136dp" />
+
+
+        <LinearLayout
+            android:layout_width="165dp"
+            android:layout_height="31dp"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/time_bg"
+            android:visibility="@{result.hasFace ? View.VISIBLE : View.GONE}"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/clock"
+                android:text='@{String.valueOf(result.time) + "ms"}'
+                android:textColor="#ffffff"/>
+
+        </LinearLayout>
+
+        <com.mv.livebodyexample.RectView
+            android:id="@+id/rectView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lineLength="40dp"
+            app:radius="3dp"
+            app:textSize="15sp"
+            app:textPadding="6dp"
+            app:x1="@{result.left}"
+            app:x2="@{result.right}"
+            app:y1="@{result.top}"
+            app:y2="@{result.bottom}"
+            app:confidence="@{result.confidence}"
+            app:color="@{result.confidence >= result.threshold ? @color/real_face_color : @color/fake_face_color}" />
+
+    </RelativeLayout>
+</layout>
